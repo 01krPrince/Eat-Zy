@@ -8,7 +8,7 @@ const plans = [
         type: "Daily",
         price: "₹120",
         per: "/meal",
-        features: ["Ideal for testing", "Standard Packaging", "Any Kitchen Access"],
+        features: ["Ideal for Eat-Zy", "Standard Packaging", "Any Kitchen Access"],
         recommended: false,
         icon: <Star size={20} className="text-gray-400" />
     },

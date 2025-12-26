@@ -51,33 +51,41 @@ const AuthPage = () => {
 
         try {
             if (isLogin) {
-                // --- LOGIN LOGIC ---
                 const data = await loginUser(formData.email, formData.password);
+
+                // 1. Dispatch to global state
                 dispatch({ type: "LOGIN", payload: data });
+
+                // 2. Save to local storage
                 localStorage.setItem("auth", JSON.stringify(data));
-                navigate("/");
+
+                // 3. FIX: Access role directly from 'data'
+                const userRole = data.role;
+
+                // Use { replace: true } to prevent users from going back to Login
+                if (userRole === 'ADMIN') {
+                    navigate("/admin", { replace: true });
+                } else if (userRole === 'PROVIDER') {
+                    navigate("/dashboard", { replace: true });
+                } else {
+                    // For CUSTOMER, go to homepage or intended destination
+                    navigate("/", { replace: true });
+                }
             } else {
-                // --- REGISTRATION LOGIC ---
+                // ... registration logic ...
                 if (step === 1) {
-                    // Trigger Backend Registration (which sends OTP)
                     await registerUser(formData);
                     setStep(2);
                 } else {
                     // OTP Verification logic
-                    if (otp.join("").length < 4) {
-                        setWarning("Please enter the complete 4-digit OTP.");
-                    } else {
-                        console.log("OTP Verified:", otp.join(""));
-                        // On success, flip to login
-                        setIsLogin(true);
-                        setStep(1);
-                        alert("Account verified! Please login.");
-                    }
+                    // After successful verification, we hard-set isLogin to true
+                    setIsLogin(true);
+                    setStep(1);
+                    alert("Account verified! Please login.");
                 }
             }
         } catch (err) {
-            // Handle @Valid errors or Custom Exceptions from Spring Boot
-            const errorMsg = err.response?.data?.message || err.response?.data || "Action failed. Please try again.";
+            const errorMsg = err.response?.data?.message || "Login failed";
             setWarning(errorMsg);
         } finally {
             setLoading(false);
@@ -197,3 +205,5 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
+
+

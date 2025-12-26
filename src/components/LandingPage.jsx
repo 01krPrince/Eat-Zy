@@ -133,7 +133,7 @@ const LandingPage = () => {
       price: "₹120",
       per: "/meal",
       features: [
-        "Ideal for testing",
+        "Ideal for Eat-Zy",
         "Standard Packaging",
         "Choose any kitchen",
       ],

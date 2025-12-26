@@ -26,10 +26,15 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
+    // 1. Clear Global State
     dispatch({ type: "LOGOUT" });
+
+    // 2. Clear Local Storage completely
     localStorage.removeItem("auth");
-    setIsMobileMenuOpen(false);
-    navigate("/");
+    localStorage.clear(); // Optional: clears everything else like saved pincodes/theme
+
+    // 3. HARD RESET: This prevents the back-button from returning to a cached dashboard
+    window.location.replace("/login");
   };
 
   const NavLink = ({ item }) => (
@@ -85,8 +90,8 @@ const Navbar = () => {
                         setIsPinOpen(false);
                       }}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${selectedPin === pin
-                          ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
-                          : "text-gray-400 hover:bg-white/5 hover:text-white"
+                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                        : "text-gray-400 hover:bg-white/5 hover:text-white"
                         }`}
                     >
                       {pin}

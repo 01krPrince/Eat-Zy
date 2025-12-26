@@ -12,7 +12,8 @@ function authReducer(state, action) {
   switch (action.type) {
     case "LOGIN":
       return {
-        user: action.payload.user,
+        // action.payload is the JSON: { token, role }
+        user: { role: action.payload.role },
         token: action.payload.token,
         isAuthenticated: true,
       };
