@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://online-food-api-gateway.onrender.com",
+  baseURL: "http://localhost:8080", // API Gateway (LOCAL)   // baseURL: "https://online-food-api-gateway.onrender.com",
 });
 
 instance.interceptors.request.use((config) => {

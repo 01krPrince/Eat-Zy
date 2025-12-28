@@ -8,12 +8,12 @@ import KitchenOverview from "./pages/provider/KitchenOverview";
 import AdminLayout from "./layout/adminLayout/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GuestRoute from "./routes/GuestRoute";
-import ViewMyAllMenus from "./pages/provider/ViewAllMenus";
-import CreateNewMenu from "./pages/provider/CreateNewMenu";
-import MenuDetail from "./pages/provider/MenuDetail";
-import ItemDetails from "./pages/provider/ItemDetails";
-import CreateNewItem from "./pages/provider/ItemForm";
-import ViewAllItems from "./pages/provider/ViewAllItems";
+import ViewMyAllMenus from "./pages/provider/menu/ViewAllMenus";
+import CreateNewMenu from "./pages/provider/menu/CreateNewMenu";
+import MenuDetail from "./pages/provider/menu/MenuDetail";
+import ItemDetails from "./pages/provider/item/ItemDetails";
+import CreateNewItem from "./pages/provider/item/CreateNewItem";
+import ViewAllItems from "./pages/provider/item/ViewAllItems";
 
 
 function App() {

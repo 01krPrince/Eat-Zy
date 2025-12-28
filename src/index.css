@@ -53,3 +53,12 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   @apply bg-neutral-bg text-neutral-text;
 }
+
+/* Custom Scrollbar for the dropdown list */
+.custom-dropdown-list::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-dropdown-list::-webkit-scrollbar-thumb {
+  background: #ff4d00; /* Your Primary Orange */
+  border-radius: 10px;
+}

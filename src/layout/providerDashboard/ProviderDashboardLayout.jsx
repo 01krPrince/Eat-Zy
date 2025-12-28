@@ -39,12 +39,13 @@ const ProviderDashboardLayout = () => {
     };
 
     return (
-        /* UI updated to use neutral-bg for main consistency */
-        <div className="flex min-h-screen bg-neutral-bg text-neutral-text">
+        /* FIX 1: added 'h-screen' and 'overflow-hidden' to the main container 
+           to prevent the entire browser window from scrolling.
+        */
+        <div className="flex h-screen w-full bg-neutral-bg text-neutral-text overflow-hidden transition-colors duration-500">
 
             {/* --- SIDEBAR --- */}
             <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-neutral-surface border-r border-gray-100 transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-                {/* Sidebar Header */}
                 <div className="h-20 flex items-center px-6 border-b border-gray-100">
                     <Link to="/" className="flex items-center gap-3 group">
                         <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
@@ -56,7 +57,6 @@ const ProviderDashboardLayout = () => {
                     </Link>
                 </div>
 
-                {/* Navigation links */}
                 <nav className="mt-8 flex flex-col h-[calc(100vh-160px)]">
                     <SidebarItem icon={LayoutDashboard} label="Overview" path="/dashboard" active={location.pathname === "/dashboard"} />
                     <SidebarItem icon={UtensilsCrossed} label="Manage Menu" path="/dashboard/menu" active={location.pathname === "/dashboard/menu"} />
@@ -64,7 +64,7 @@ const ProviderDashboardLayout = () => {
                     <SidebarItem icon={ClipboardList} label="Active Orders" path="/dashboard/orders" active={location.pathname === "/dashboard/orders"} />
                     <SidebarItem icon={IndianRupee} label="Earnings" path="/dashboard/earnings" active={location.pathname === "/dashboard/earnings"} />
 
-                    <div className="mt-auto border-t border-gray-100 pt-4">
+                    <div className="mt-auto border-t border-gray-100 pt-4 pb-4">
                         <SidebarItem icon={Settings} label="Settings" path="/dashboard/settings" active={location.pathname === "/dashboard/settings"} />
                         <button
                             onClick={handleLogout}
@@ -78,21 +78,22 @@ const ProviderDashboardLayout = () => {
             </aside>
 
             {/* --- MAIN CONTENT AREA --- */}
-            <div className="flex-grow flex flex-col min-w-0 overflow-hidden">
-                {/* Dashboard Header */}
-                <header className="h-20 border-b border-gray-100 bg-neutral-surface/80 backdrop-blur-xl flex items-center justify-between px-8 sticky top-0 z-40">
+            {/* FIX 2: Ensure the content container takes up the full width 
+                and has its own vertical scrollbar. 
+            */}
+            <div className="flex-grow flex flex-col h-full min-w-0">
+                {/* Dashboard Header - Fixed at top of content area */}
+                <header className="h-20 flex-shrink-0 border-b border-gray-100 bg-neutral-surface/80 backdrop-blur-xl flex items-center justify-between px-8 sticky top-0 z-40">
                     <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="lg:hidden text-primary p-2 hover:bg-gray-100 rounded-lg transition-colors">
                         {isSidebarOpen ? <X size={24} /> : <MenuIcon size={24} />}
                     </button>
 
                     <div className="flex items-center gap-6 ml-auto">
-                        {/* Notification Bell */}
                         <button className="relative p-2 text-neutral-muted hover:text-primary transition-colors">
                             <Bell size={20} />
                             <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-neutral-surface"></span>
                         </button>
 
-                        {/* Chef Profile Summary */}
                         <div className="flex items-center gap-4 pl-6 border-l border-gray-100">
                             <div className="text-right hidden sm:block">
                                 <p className="text-[10px] font-black text-neutral-muted uppercase tracking-widest leading-none mb-1">Kitchen Master</p>
@@ -105,8 +106,10 @@ const ProviderDashboardLayout = () => {
                     </div>
                 </header>
 
-                {/* Dynamic Page Content */}
-                <main className="p-4 md:p-8 flex-grow overflow-y-auto">
+                {/* FIX 3: This main area now independently scrolls. 
+                    Added 'overflow-y-auto' to allow scrolling of children.
+                */}
+                <main className="flex-grow overflow-y-auto p-4 md:p-8 custom-scrollbar">
                     <div className="max-w-7xl mx-auto">
                         <Outlet />
                     </div>

@@ -1,6 +1,6 @@
-import React from "react";
-import { Plus, Eye, Edit3, Trash2, Tag, CheckCircle, XCircle } from "lucide-react";
+import { Plus, Eye, Edit3, Tag } from "lucide-react";
 import { Link } from "react-router-dom";
+
 
 const ItemCard = ({ item }) => (
     <div className="bg-neutral-surface border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
@@ -67,7 +67,7 @@ const ViewAllItems = () => {
                     <h2 className="text-3xl font-black tracking-tighter text-neutral-text uppercase italic">Inventory Items</h2>
                     <p className="text-neutral-muted text-sm font-medium">Manage individual dishes and add-ons for your menus.</p>
                 </div>
-                <Link to="/dashboard/items/create" className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+                <Link to="/dashboard/item/create" className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
                     <Plus size={18} /> Add New Item
                 </Link>
             </div>
