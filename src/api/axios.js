@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080", // API Gateway (LOCAL)   // baseURL: "https://online-food-api-gateway.onrender.com",
+  baseURL: "https://online-food-api-gateway.onrender.com",
 });
-
+// "https://online-food-api-gateway.onrender.com",
+// "http://localhost:8080",
 instance.interceptors.request.use((config) => {
   const authData = localStorage.getItem("auth");
   if (authData) {
