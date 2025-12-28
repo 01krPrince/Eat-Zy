@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   ChefHat, User, MapPin,
   ShoppingBag, History, LogOut
@@ -14,7 +15,7 @@ const Navbar = () => {
 
   const { state, dispatch } = useAuth();
   const userMenuRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -108,7 +109,15 @@ const Navbar = () => {
 
                   {/* Menu items */}
                   <div className="py-2">
-                    <DropdownItem icon={<User size={16} />} label="My Profile" />
+                    {/* <DropdownItem onClick={navigate('/profile')} icon={<User size={16} />} label="My Profile" /> */}
+                    <DropdownItem
+                      onClick={() => {
+                        navigate('/profile');
+                        setIsUserMenuOpen(false); // Optional: Close menu after clicking
+                      }}
+                      icon={<User size={16} />}
+                      label="My Profile"
+                    />
                     <DropdownItem icon={<ShoppingBag size={16} />} label="Active Orders" />
                     <DropdownItem icon={<History size={16} />} label="Order History" />
                   </div>

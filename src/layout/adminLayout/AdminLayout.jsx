@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import {
-    ShieldCheck,
-    Users,
-    Store,
-    BarChart3,
-    Settings,
-    LogOut,
-    Menu as MenuIcon,
-    X,
-    Database
+    ShieldCheck, Users, Store, BarChart3, Settings,
+    LogOut, Menu as MenuIcon, X, Database, Search, Bell
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 const AdminSidebarItem = ({ icon: Icon, label, path, active }) => (
     <Link
         to={path}
-        className={`flex items-center gap-4 px-6 py-4 transition-all duration-300 border-l-4 ${active
-                ? "bg-red-600/10 border-red-600 text-white"
-                : "border-transparent text-gray-500 hover:bg-white/5 hover:text-white"
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${active
+            ? "bg-orange-50 text-orange-600 font-semibold"
+            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
             }`}
     >
-        <Icon size={20} className={active ? "text-red-500" : ""} />
-        <span className="text-[11px] font-black uppercase tracking-widest">{label}</span>
+        <Icon size={20} className={active ? "text-orange-600" : "text-gray-400"} />
+        <span className="text-sm">{label}</span>
     </Link>
 );
 
@@ -33,44 +26,45 @@ const AdminLayout = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-    // 1. Clear Global State
-    dispatch({ type: "LOGOUT" });
-
-    // 2. Clear Local Storage completely
-    localStorage.removeItem("auth"); 
-    localStorage.clear(); // Optional: clears everything else like saved pincodes/theme
-
-    // 3. HARD RESET: This prevents the back-button from returning to a cached dashboard
-    window.location.replace("/login"); 
-};
+        dispatch({ type: "LOGOUT" });
+        localStorage.clear();
+        window.location.replace("/login");
+    };
 
     return (
-        <div className="flex min-h-screen bg-[#050505] text-white font-sans">
+        <div className="flex min-h-screen bg-gray-50 text-gray-800 font-sans">
+
             {/* --- ADMIN SIDEBAR --- */}
-            <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#0a0a0a] border-r border-white/5 transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-                }`}>
-                <div className="h-20 flex items-center px-6 border-b border-white/5">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-red-600 p-1.5 rounded-lg shadow-lg shadow-red-600/20">
+            <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+
+                {/* Brand Header */}
+                <div className="h-16 flex items-center px-6 border-b border-gray-100">
+                    <div className="flex items-center gap-2">
+                        <div className="bg-orange-600 p-1.5 rounded-lg">
                             <ShieldCheck size={18} className="text-white" />
                         </div>
-                        <span className="font-black text-lg tracking-tighter uppercase italic">
-                            Admin<span className="text-red-600">.Panel</span>
+                        <span className="font-bold text-lg text-gray-900 tracking-tight">
+                            Admin<span className="text-orange-600">Panel</span>
                         </span>
                     </div>
                 </div>
 
-                <nav className="mt-8 flex flex-col h-[calc(100vh-160px)]">
+                {/* Navigation */}
+                <nav className="p-4 space-y-1 flex flex-col h-[calc(100vh-64px)]">
+                    <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-2">Overview</p>
                     <AdminSidebarItem icon={BarChart3} label="Dashboard" path="/admin" active={location.pathname === "/admin"} />
-                    <AdminSidebarItem icon={Store} label="Kitchen Partners" path="/admin/providers" active={location.pathname === "/admin/providers"} />
+                    <AdminSidebarItem icon={Store} label="Kitchen Partners" path="/admin/kitchen-partners" active={location.pathname === "/admin/kitchen-partners"} />
                     <AdminSidebarItem icon={Users} label="User Base" path="/admin/users" active={location.pathname === "/admin/users"} />
-                    <AdminSidebarItem icon={Database} label="System Health" path="/admin/system" active={location.pathname === "/admin/system"} />
 
-                    <div className="mt-auto border-t border-white/5 pt-4">
-                        <AdminSidebarItem icon={Settings} label="Configuration" path="/admin/settings" active={location.pathname === "/admin/settings"} />
-                        <button onClick={handleLogout} className="w-full flex items-center gap-4 px-6 py-4 text-gray-600 hover:text-red-500 transition-all">
+                    <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-6">System</p>
+                    <AdminSidebarItem icon={Database} label="System Health" path="/admin/system" active={location.pathname === "/admin/system"} />
+                    <AdminSidebarItem icon={Settings} label="Settings" path="/admin/settings" active={location.pathname === "/admin/settings"} />
+
+                    {/* Footer / Logout */}
+                    <div className="mt-auto pt-4 border-t border-gray-100">
+                        <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all">
                             <LogOut size={20} />
-                            <span className="text-[11px] font-black uppercase tracking-widest">Exit Panel</span>
+                            <span className="text-sm font-medium">Log Out</span>
                         </button>
                     </div>
                 </nav>
@@ -78,23 +72,39 @@ const AdminLayout = () => {
 
             {/* --- MAIN CONTENT --- */}
             <div className="flex-grow flex flex-col min-w-0">
-                <header className="h-20 border-b border-white/5 bg-[#0a0a0a]/50 backdrop-blur-xl flex items-center justify-between px-8">
-                    <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="lg:hidden text-red-500">
-                        {isSidebarOpen ? <X size={24} /> : <MenuIcon size={24} />}
-                    </button>
 
-                    <div className="ml-auto flex items-center gap-4">
-                        <div className="text-right">
-                            <p className="text-[9px] font-black text-red-500 uppercase tracking-widest">Root Authority</p>
-                            <p className="text-xs font-bold text-white">{state.user?.name || "Administrator"}</p>
+                {/* Header */}
+                <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40">
+                    <div className="flex items-center gap-4">
+                        <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="lg:hidden text-gray-500">
+                            {isSidebarOpen ? <X size={24} /> : <MenuIcon size={24} />}
+                        </button>
+                        {/* Search Bar */}
+                        <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-3 py-2 w-64">
+                            <Search size={18} className="text-gray-400" />
+                            <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-sm ml-2 w-full text-gray-700" />
                         </div>
-                        <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center font-black text-white shadow-lg shadow-red-600/20">
-                            AD
+                    </div>
+
+                    <div className="flex items-center gap-6">
+                        <button className="relative text-gray-500 hover:text-orange-600 transition-colors">
+                            <Bell size={20} />
+                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                        </button>
+
+                        <div className="flex items-center gap-3 pl-6 border-l border-gray-200">
+                            <div className="text-right hidden md:block">
+                                <p className="text-sm font-bold text-gray-800">{state.user?.name || "Administrator"}</p>
+                                <p className="text-xs text-gray-500">Super Admin</p>
+                            </div>
+                            <div className="w-9 h-9 rounded-full bg-gray-200 border-2 border-white shadow-sm flex items-center justify-center text-gray-600 font-bold text-sm">
+                                {state.user?.name?.charAt(0) || "A"}
+                            </div>
                         </div>
                     </div>
                 </header>
 
-                <main className="p-8">
+                <main className="p-6 lg:p-8 overflow-y-auto">
                     <Outlet />
                 </main>
             </div>

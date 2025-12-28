@@ -14,6 +14,10 @@ import MenuDetail from "./pages/provider/menu/MenuDetail";
 import ItemDetails from "./pages/provider/item/ItemDetails";
 import CreateNewItem from "./pages/provider/item/CreateNewItem";
 import ViewAllItems from "./pages/provider/item/ViewAllItems";
+import ProfilePage from "./pages/ProfilePage";
+import AddKitchenPage from "./pages/AddKitchenPage";
+import KitchenPartnersPage from "./pages/admin/KitchenPartnersPage";
+import ViewApplication from "./pages/admin/ViewApplication";
 
 
 function App() {
@@ -24,6 +28,8 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/explore" element={<div>Explore Page</div>} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="become-provider" element={<AddKitchenPage />} />
         </Route>
 
         <Route
@@ -57,6 +63,8 @@ function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
+          <Route path="kitchen-partners" element={<KitchenPartnersPage />} />
+          <Route path="kitchen-partners/:applicationId" element={<ViewApplication />} />
           <Route path="users" element={<div>Manage All Users Page</div>} />
           <Route path="providers" element={<div>Verify Kitchen Partners Page</div>} />
           <Route path="system" element={<div>API & DB Status Monitoring</div>} />
