@@ -1,1 +1,55 @@
 @import "tailwindcss";
+
+@theme {
+  /* --- Custom Fonts --- */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* --- Light Theme (Default) --- */
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-surface: var(--neutral-surface);
+  --color-neutral-text: var(--neutral-text);
+  --color-neutral-muted: var(--neutral-muted);
+
+  /* --- Custom Radius --- */
+  --radius-max: 3rem;
+}
+
+/* --- LIGHT VALUES --- */
+:root {
+  --primary: #EA580C;
+  --primary-light: #FFF7ED;
+  --primary-dark: #C2410C;
+  --success: #10B981;
+  --success-light: #ECFDF5;
+  --neutral-bg: #FAFAFA;
+  --neutral-surface: #FFFFFF;
+  --neutral-text: #111827;
+  --neutral-muted: #6B7280;
+}
+
+/* --- DARK VALUES (Triggered by your toggle) --- */
+.dark {
+  --primary: #F97316; /* Slightly brighter orange for dark mode */
+  --primary-light: #2A1A10; /* Darker brown/orange tint */
+  --primary-dark: #EA580C;
+  --success: #34D399;
+  --success-light: #064E3B;
+  --neutral-bg: #0D0D0D;      /* Dark Background */
+  --neutral-surface: #171717; /* Darker Surface/Cards */
+  --neutral-text: #F9FAFB;    /* White Text */
+  --neutral-muted: #A3A3A3;   /* Gray Text */
+}
+
+/* Smooth transition for theme switching */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  @apply bg-neutral-bg text-neutral-text;
+}

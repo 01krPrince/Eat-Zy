@@ -1,21 +1,21 @@
-import Hero from "../components/homepage/Hero";
-import Stats from "../components/homepage/Stats";
-import HowItWorks from "../components/homepage/HowItWorks";
-import TrendingKitchens from "../components/homepage/TrendingKitchens";
-import SafetyHygiene from "../components/homepage/SafetyHygiene";
-import PricingPlans from "../components/homepage/PricingPlans";
-import Testimonials from "../components/homepage/Testimonials";
-import FAQ from "../components/homepage/FAQ";
+import Hero from "../components/customer/homepage/Hero";
+import Stats from "../components/customer/homepage/Stats";
+import HowItWorks from "../components/customer/homepage/HowItWorks";
+import TrendingKitchens from "../components/customer/homepage/TrendingKitchens";
+import SafetyHygiene from "../components/customer/homepage/SafetyHygiene";
+import PricingPlans from "../components/customer/homepage/PricingPlans";
+import Testimonials from "../components/customer/homepage/Testimonials";
+import FAQ from "../components/customer/homepage/FAQ";
 
 const LandingPage = () => {
     return (
         <div className="overflow-x-hidden">
             <Hero />
             <Stats />
-            <HowItWorks />
             <TrendingKitchens />
-            <SafetyHygiene />
             <PricingPlans />
+            <SafetyHygiene />
+            <HowItWorks />
             <Testimonials />
             <FAQ />
         </div>

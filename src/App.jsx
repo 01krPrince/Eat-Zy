@@ -1,17 +1,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PublicLayout from "./layout/PublicLayout";
-import DashboardLayout from "./layout/providerDashboard/DashboardLayout";
+import ProviderDashboardLayout from "./layout/providerDashboard/ProviderDashboardLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Homepage from "./pages/Homepage";
 import AuthPage from "./pages/AuthPage";
-import KitchenOverview from "./layout/providerDashboard/KitchenOverview";
+import KitchenOverview from "./pages/provider/KitchenOverview";
 import AdminLayout from "./layout/adminLayout/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GuestRoute from "./routes/GuestRoute";
+import ViewMyAllMenus from "./pages/provider/ViewAllMenus";
+import CreateNewMenu from "./pages/provider/CreateNewMenu";
+import MenuDetail from "./pages/provider/MenuDetail";
+import ItemDetails from "./pages/provider/ItemDetails";
+import CreateNewItem from "./pages/provider/ItemForm";
+import ViewAllItems from "./pages/provider/ViewAllItems";
 
-// Optional: Import your other pages as you build them
-// import ManageMenu from "./pages/providerDashboard/ManageMenu";
-// import ExploreKitchens from "./pages/ExploreKitchens";
 
 function App() {
   return (
@@ -23,20 +26,26 @@ function App() {
           <Route path="/explore" element={<div>Explore Page</div>} />
         </Route>
 
-        {/* --- PROVIDER DASHBOARD (Chef Only) --- */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute allowedRoles={['PROVIDER']}>
-              <DashboardLayout />
+              <ProviderDashboardLayout />
             </ProtectedRoute>
           }
         >
           <Route index element={<KitchenOverview />} />
-          <Route path="menu" element={<div>Menu Management</div>} />
+          <Route path="menu" element={<ViewMyAllMenus />} />
+          <Route path="menu/create" element={<CreateNewMenu />} />
+          <Route path="menu/{id}" element={<MenuDetail />} />
+          <Route path="item" element={<ViewAllItems />} />
+          <Route path="item/create" element={<CreateNewItem />} />
+          <Route path="item/{id}" element={<ItemDetails />} />
           <Route path="orders" element={<div>Orders List</div>} />
           <Route path="earnings" element={<div>Earnings Reports</div>} />
+          <Route path="settings" element={<div>Provider Settings</div>} />
         </Route>
+
 
         {/* --- ADMIN PANEL (Admin Only) --- */}
         <Route

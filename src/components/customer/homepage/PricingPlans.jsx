@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle2, Zap, Crown, Star } from "lucide-react";
-import RevealOnScroll from "../../shared/RevealOnScroll";
+import RevealOnScroll from "../../../shared/RevealOnScroll";
 
 const plans = [
     {
@@ -34,40 +34,29 @@ const plans = [
 
 const PricingPlans = () => (
     <section id="subscriptions" className="py-32 bg-[#0d0d0d] relative overflow-hidden">
-        {/* Background Decorative Accents */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(234,88,12,0.05),transparent_70%)] -z-0"></div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Centered Dual-Font Heading */}
             <RevealOnScroll direction="down">
                 <div className="text-center mb-24">
                     <span className="text-[10px] font-black uppercase tracking-[0.5em] text-orange-500 mb-4 block">
                         Subscription
                     </span>
                     <h2 className="text-4xl lg:text-6xl font-semibold tracking-tighter text-white">
-                        Curated
-                        <span className="font-serif italic font-light text-orange-50 px-3 lowercase tracking-normal">
-                            meal plans
-                        </span>
+                        Curated <span className="font-serif italic font-light text-orange-50 px-3 lowercase tracking-normal">meal plans</span>
                     </h2>
-                    <div className="mt-6 flex items-center justify-center gap-4">
-                        <div className="h-px w-12 bg-white/10"></div>
-                        <p className="text-gray-500 text-xs font-medium uppercase tracking-widest">Flexible terms. Pause anytime.</p>
-                        <div className="h-px w-12 bg-white/10"></div>
-                    </div>
                 </div>
             </RevealOnScroll>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
                 {plans.map((plan, idx) => (
                     <RevealOnScroll key={idx} delay={idx * 150} direction="up">
-                        <div className={`relative p-10 rounded-[2.5rem] transition-all duration-500 group border ${plan.recommended
-                                ? "bg-[#111] border-orange-500/50 shadow-[0_20px_50px_rgba(234,88,12,0.15)] scale-105 z-20"
-                                : "bg-white/[0.03] border-white/5 hover:border-white/20 z-10"
+                        <div className={`relative h-full p-10 rounded-[2.5rem] transition-all duration-700 group border ${plan.recommended
+                                ? "bg-[#111] border-orange-500 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] scale-105 z-20"
+                                : "bg-white/[0.03] border-white/5 z-10"
                             }`}>
 
+                            {/* Clean Recommended Tag */}
                             {plan.recommended && (
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-600 text-white px-5 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase shadow-xl shadow-orange-600/20">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-600 text-white px-5 py-1.5 rounded-full text-[9px] font-black tracking-widest uppercase">
                                     Most Popular
                                 </div>
                             )}
@@ -89,9 +78,9 @@ const PricingPlans = () => (
 
                             <div className="h-px w-full bg-white/5 mb-8"></div>
 
-                            <ul className="space-y-5 mb-12">
+                            <ul className="space-y-5 mb-12 flex-grow">
                                 {plan.features.map((feat, i) => (
-                                    <li key={i} className="flex items-center text-gray-400 text-xs font-bold uppercase tracking-widest group-hover:text-gray-300 transition-colors">
+                                    <li key={i} className="flex items-center text-gray-400 text-[10px] font-bold uppercase tracking-widest transition-colors">
                                         <CheckCircle2 className="w-4 h-4 text-orange-600 mr-4 shrink-0" />
                                         {feat}
                                     </li>
@@ -99,8 +88,8 @@ const PricingPlans = () => (
                             </ul>
 
                             <button className={`w-full py-5 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 border ${plan.recommended
-                                    ? "bg-orange-600 text-white border-orange-600 hover:bg-orange-700 hover:shadow-[0_10px_30px_rgba(234,88,12,0.3)]"
-                                    : "bg-white/5 text-white border-white/10 hover:bg-white hover:text-black hover:border-white"
+                                    ? "bg-orange-600 text-white border-orange-600 hover:bg-orange-700"
+                                    : "bg-white/5 text-white border-white/10 hover:bg-white hover:text-black"
                                 }`}>
                                 Select {plan.type}
                             </button>

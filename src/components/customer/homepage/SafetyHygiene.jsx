@@ -1,7 +1,7 @@
 import React from "react";
 import { ShieldCheck, CheckCircle2, Award, Zap } from "lucide-react";
-import RevealOnScroll from "../../shared/RevealOnScroll";
-import kitchenHygiene from "../../assets/img/woman-holding-rag-detergent-cleaning-cooker.jpg"
+import RevealOnScroll from "../../../shared/RevealOnScroll";
+import kitchenHygiene from "../../../assets/img/woman-holding-rag-detergent-cleaning-cooker.jpg"
 
 
 const SAFETY_FEATURES = [

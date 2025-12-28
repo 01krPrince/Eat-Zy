@@ -1,6 +1,6 @@
 import React from "react";
 import { ChefHat, Utensils, MapPin, Star } from "lucide-react";
-import RevealOnScroll from "../../shared/RevealOnScroll";
+import RevealOnScroll from "../../../shared/RevealOnScroll";
 
 const STATS_DATA = [
     { num: "500+", label: "Verified Kitchens", icon: <ChefHat className="w-6 h-6 mb-2 mx-auto opacity-80" /> },
@@ -10,7 +10,7 @@ const STATS_DATA = [
 ];
 
 const Stats = () => (
-    <section className="bg-orange-500 py-12 text-white">
+    <section className="bg-orange-500 py-8 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-orange-400/50">
                 {STATS_DATA.map((stat, idx) => (
