@@ -9,10 +9,8 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
     const [adminNote, setAdminNote] = useState("");
     const [actionLoading, setActionLoading] = useState(false);
 
-    // If no application selected, don't render
     if (!application) return null;
 
-    // --- HANDLERS ---
     const handleAction = (type) => {
         if (type === 'REJECT' && !adminNote.trim()) {
             alert("Please provide a reason for rejection in the comments.");
@@ -20,7 +18,6 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
         }
 
         setActionLoading(true);
-        // Simulate API call
         setTimeout(() => {
             setActionLoading(false);
             if (type === 'APPROVE') onApprove(application.id, adminNote);
@@ -29,13 +26,10 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
     };
 
     return (
-        // OVERLAY BACKGROUND
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
 
-            {/* MODAL CONTAINER */}
             <div className="bg-white w-full max-w-4xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
 
-                {/* --- 1. HEADER (Sticky) --- */}
                 <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white z-10">
                     <div>
                         <div className="flex items-center gap-3">
@@ -55,10 +49,7 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                     </button>
                 </div>
 
-                {/* --- 2. SCROLLABLE CONTENT --- */}
                 <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-gray-50 space-y-6">
-
-                    {/* SECTION: APPLICANT IDENTITY */}
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <SectionTitle icon={User} title="Provider Profile" />
                         <div className="flex items-start gap-6 mt-4">
@@ -74,9 +65,7 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                         </div>
                     </div>
 
-                    {/* SECTION: KITCHEN & ADDRESS */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Kitchen Info */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <SectionTitle icon={Building2} title="Kitchen Details" />
                             <div className="space-y-4 mt-4">
@@ -85,7 +74,6 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                             </div>
                         </div>
 
-                        {/* Address Info */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <SectionTitle icon={MapPin} title="Registered Address" />
                             <div className="space-y-2 mt-4">
@@ -103,12 +91,10 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                         </div>
                     </div>
 
-                    {/* SECTION: BANKING & KYC */}
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <SectionTitle icon={Shield} title="Legal & Financial Verification" />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-                            {/* Bank Card Visual */}
                             <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl text-white relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-10"><CreditCard size={100} /></div>
                                 <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Bank Account Details</p>
@@ -125,7 +111,6 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                                 </div>
                             </div>
 
-                            {/* Documents Grid */}
                             <div className="space-y-4">
                                 <DocumentRow title="PAN Card" id="ABCDE1234F" status="Verified" />
                                 <DocumentRow title="Aadhar Card" id="1234 5678 9012" status="Pending Check" />
@@ -135,11 +120,8 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                     </div>
                 </div>
 
-                {/* --- 3. FOOTER ACTIONS (Sticky) --- */}
                 <div className="bg-white border-t border-gray-200 p-6 z-10">
                     <div className="flex flex-col md:flex-row gap-4 items-start md:items-end">
-
-                        {/* Admin Comment Box */}
                         <div className="w-full md:w-2/3">
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
                                 Admin Remarks / Rejection Reason
@@ -152,7 +134,6 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
                             />
                         </div>
 
-                        {/* Buttons */}
                         <div className="w-full md:w-1/3 flex flex-col gap-3">
                             <button
                                 onClick={() => handleAction('APPROVE')}
@@ -186,8 +167,6 @@ const ViewApplication = ({ application, onClose, onApprove, onReject }) => {
         </div>
     );
 };
-
-// --- HELPER COMPONENTS ---
 
 const SectionTitle = ({ icon: Icon, title }) => (
     <div className="flex items-center gap-2 text-gray-800 pb-2 border-b border-gray-100">

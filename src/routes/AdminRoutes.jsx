@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminLayout from "../layout/adminLayout/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import KitchenPartnersPage from "../pages/admin/KitchenPartnersPage";
+import KitchenPartnerDetailePage from "../pages/admin/KitchenPartnerDetailePage";
 import ViewApplication from "../pages/admin/ViewApplication";
 
 const AdminRoutes = () => {
@@ -18,9 +19,8 @@ const AdminRoutes = () => {
       >
         <Route index element={<AdminDashboard />} />
         <Route path="kitchen-partners" element={<KitchenPartnersPage />} />
-        {/* Note: I corrected the syntax {id} to :id for React Router v6 */}
-        <Route path="kitchen-partners/:applicationId" element={<ViewApplication />} />
-        
+        <Route path="kitchen-partners/:id" element={<KitchenPartnerDetailePage />} />
+
         {/* Placeholders for routes mentioned in original code */}
         <Route path="users" element={<div>Manage All Users Page</div>} />
         <Route path="providers" element={<div>Verify Kitchen Partners Page</div>} />

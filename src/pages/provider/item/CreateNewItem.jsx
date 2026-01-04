@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Save, Image as ImageIcon, Tag, Info, Utensils, ToggleRight } from "lucide-react";
 import CustomDropdown from "../../../shared/CustomDropdown";
-import ItemService from "../../../service/menuServices/menuServices";
+import ItemService from "../../../service/menuServices";
 
 const CreateNewItem = ({ mode = "create", menuId }) => {
-    // State matching MenuItemCreateRequestDTO
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",

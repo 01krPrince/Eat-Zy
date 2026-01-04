@@ -3,7 +3,7 @@ import {
     User, MapPin, ChevronRight, ShoppingBag, Heart,
     CreditCard, Settings, LifeBuoy, LogOut, ChefHat, Star
 } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {

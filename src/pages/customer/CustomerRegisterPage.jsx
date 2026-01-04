@@ -1,21 +1,15 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ChefHat, Mail, Lock, User, AlertCircle, ChevronLeft, X } from "lucide-react";
-import ExploreButton from "../shared/ExploredButton";
-import { loginUser, registerUser, verifyOtp } from "../service/authService";
-import { useAuth } from "../context/AuthContext";
+import { registerUser, verifyOtp } from "../../service/authService";
 
-const AuthPage = () => {
+const CustomerRegisterPage = () => {
     const navigate = useNavigate();
-    const { dispatch } = useAuth();
 
-    const [isLogin, setIsLogin] = useState(true);
     const [step, setStep] = useState(1);
-
-    const [otp, setOtp] = useState(new Array(6).fill(""));
-
-    const [warning, setWarning] = useState("");
     const [loading, setLoading] = useState(false);
+    const [warning, setWarning] = useState("");
+    const [otp, setOtp] = useState(new Array(6).fill(""));
 
     const [formData, setFormData] = useState({
         name: "",
@@ -29,6 +23,7 @@ const AuthPage = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // OTP Logic
     const handleOtpChange = (element, index) => {
         if (isNaN(element.value)) return false;
         const newOtp = [...otp];
@@ -46,49 +41,32 @@ const AuthPage = () => {
         }
     };
 
-    const handleAction = async (e) => {
+    const handleRegisterAction = async (e) => {
         e.preventDefault();
         setWarning("");
         setLoading(true);
 
         try {
-            if (isLogin) {
-                const data = await loginUser(formData.email, formData.password);
-
-                dispatch({ type: "LOGIN", payload: data });
-                localStorage.setItem("auth", JSON.stringify(data));
-
-                const userRole = data.role;
-                if (userRole === 'ADMIN') navigate("/admin", { replace: true });
-                else if (userRole === 'PROVIDER') navigate("/dashboard", { replace: true });
-                else navigate("/", { replace: true });
-
+            if (step === 1) {
+                // Step 1: Register User
+                await registerUser(formData);
+                setStep(2);
+                alert("OTP Sent to your email!");
             } else {
-                if (step === 1) {
-                    await registerUser(formData);
-                    setStep(2);
-                    setWarning("");
-                    alert("OTP Sent to your email!");
-                } else {
-                    const otpString = otp.join("");
-
-                    if (otpString.length < 6) {
-                        setWarning("Please enter a valid 6-digit OTP");
-                        setLoading(false);
-                        return;
-                    }
-
-                    await verifyOtp(formData.email, otpString);
-                    alert("Account verified successfully! Please Login.");
-
-                    setIsLogin(true);
-                    setStep(1);
-                    setOtp(new Array(6).fill(""));
+                // Step 2: Verify OTP
+                const otpString = otp.join("");
+                if (otpString.length < 6) {
+                    setWarning("Please enter a valid 6-digit OTP");
+                    setLoading(false);
+                    return;
                 }
+                await verifyOtp(formData.email, otpString);
+                alert("Account verified successfully! Please Login.");
+                navigate("/login");
             }
         } catch (err) {
             console.error(err);
-            const errorMsg = err.response?.data?.message || err.response?.data || "Action failed.";
+            const errorMsg = err.response?.data?.message || "Registration failed.";
             setWarning(typeof errorMsg === 'object' ? JSON.stringify(errorMsg) : errorMsg);
         } finally {
             setLoading(false);
@@ -97,10 +75,11 @@ const AuthPage = () => {
 
     return (
         <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
-            <div className="max-w-5xl w-full bg-[#111] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[700px] border border-white/5 relative">
+            <div className="max-w-5xl w-full bg-[#111] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px] border border-white/5 relative">
 
+                {/* Header Controls */}
                 <div className="absolute top-8 right-8 left-8 lg:left-auto flex justify-between lg:justify-end items-center gap-4 z-50">
-                    {(!isLogin && step === 2) && (
+                    {step === 2 && (
                         <button onClick={() => setStep(1)} className="flex items-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest hover:text-orange-500 transition-colors bg-black/20 backdrop-blur-md px-3 py-2 rounded-full border border-white/5">
                             <ChevronLeft size={14} /> Back
                         </button>
@@ -110,15 +89,17 @@ const AuthPage = () => {
                     </button>
                 </div>
 
+                {/* Error Toast */}
                 {warning && (
-                    <div className="absolute top-24 lg:top-8 right-8 bg-red-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 z-50 max-w-sm break-words">
-                        <AlertCircle size={18} className="shrink-0" />
+                    <div className="absolute top-24 lg:top-8 right-8 bg-red-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 z-50">
+                        <AlertCircle size={18} />
                         <span className="text-xs font-bold">{warning}</span>
                     </div>
                 )}
 
+                {/* Left Side - Image */}
                 <div className="lg:w-1/2 relative hidden lg:block">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=1000" alt="Food" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=1000" alt="Cooking" className="absolute inset-0 w-full h-full object-cover opacity-60" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                     <div className="absolute bottom-12 left-12 right-12">
                         <div className="flex items-center gap-3 mb-6">
@@ -126,46 +107,41 @@ const AuthPage = () => {
                             <span className="font-black text-2xl tracking-tighter text-white uppercase italic">Online<span className="text-orange-500">.Food</span></span>
                         </div>
                         <h2 className="text-4xl font-bold text-white leading-tight mb-4">
-                            {isLogin ? "Welcome back." : step === 1 ? "Start your journey." : "Secure Verification."}
+                            {step === 1 ? "Start your journey." : "Secure Verification."}
                         </h2>
                     </div>
                 </div>
 
+                {/* Right Side - Form */}
                 <div className="lg:w-1/2 w-full p-8 lg:p-16 flex flex-col justify-center bg-[#0d0d0d]">
                     <div className="mb-10 text-center lg:text-left">
                         <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">
-                            {isLogin ? "Login" : step === 1 ? "Register" : "Verify OTP"}
+                            {step === 1 ? "Create Account" : "Verify OTP"}
                         </h3>
                         <p className="text-gray-500 text-sm">
-                            {isLogin ? "New here?" : "Joined already?"}
-                            <button
-                                type="button"
-                                onClick={() => { setIsLogin(!isLogin); setStep(1); setWarning(""); }}
-                                className="ml-2 text-orange-500 font-bold hover:underline"
-                            >
-                                {isLogin ? "Create account" : "Sign in"}
-                            </button>
+                            Joined already?
+                            <Link to="/login" className="ml-2 text-orange-500 font-bold hover:underline">
+                                Sign in
+                            </Link>
                         </p>
                     </div>
 
-                    <form className="space-y-5" onSubmit={handleAction}>
+                    <form className="space-y-5" onSubmit={handleRegisterAction}>
 
-                        {(isLogin || step === 1) ? (
+                        {step === 1 ? (
                             <>
-                                {!isLogin && (
-                                    <div className="relative group">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" size={18} />
-                                        <input
-                                            name="name"
-                                            type="text"
-                                            placeholder="Full Name"
-                                            required
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:border-orange-500/50 outline-none transition-all"
-                                        />
-                                    </div>
-                                )}
+                                <div className="relative group">
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" size={18} />
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        placeholder="Full Name"
+                                        required
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white focus:border-orange-500/50 outline-none transition-all"
+                                    />
+                                </div>
                                 <div className="relative group">
                                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" size={18} />
                                     <input
@@ -192,7 +168,8 @@ const AuthPage = () => {
                                 </div>
                             </>
                         ) : (
-                            <div className="space-y-8">
+                            // STEP 2: OTP
+                            <div className="space-y-8 animate-in fade-in slide-in-from-right-8">
                                 <div className="flex justify-between gap-2">
                                     {otp.map((data, index) => (
                                         <input
@@ -213,10 +190,12 @@ const AuthPage = () => {
                             </div>
                         )}
 
-                        <ExploreButton
-                            text={loading ? "Processing..." : (isLogin ? "Sign In" : step === 1 ? "Get OTP" : "Verify Account")}
+                        <button
                             disabled={loading}
-                        />
+                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider text-sm shadow-lg shadow-orange-900/20"
+                        >
+                            {loading ? "Processing..." : (step === 1 ? "Get OTP" : "Verify Account")}
+                        </button>
                     </form>
                 </div>
             </div>
@@ -224,4 +203,4 @@ const AuthPage = () => {
     );
 };
 
-export default AuthPage;
+export default CustomerRegisterPage;

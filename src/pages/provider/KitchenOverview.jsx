@@ -1,4 +1,3 @@
-import React from "react";
 import { TrendingUp, Users, ShoppingBag, Star } from "lucide-react";
 
 const StatCard = ({ title, value, growth, icon: Icon }) => (
